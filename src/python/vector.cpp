@@ -90,6 +90,7 @@ auto register_vector_type(py::module &m, const char *name) {
 void register_vector(py::module &m) {
     register_vector_type<Vector2i>(m, "Vector2i");
     register_vector_type<Vector2f>(m, "Vector2f");
+    register_vector_type<Vector3i>(m, "Vector3i");
     register_vector_type<Vector3f>(m, "Vector3f");
 
     py::class_<Matrix4f>(m, "Matrix4f", py::buffer_protocol())

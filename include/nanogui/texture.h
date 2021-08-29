@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <iostream>
+
 #include <nanogui/object.h>
 #include <nanogui/vector.h>
 #include <nanogui/traits.h>

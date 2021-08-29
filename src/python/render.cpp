@@ -110,6 +110,57 @@ static void texture_upload(Texture &texture, py::array array) {
     texture.upload((const uint8_t *) array.data());
 }
 
+static py::array texture3d_download(Texture3D &texture) {
+    const char *dtype_name;
+    switch (texture.component_format()) {
+        case Texture::ComponentFormat::UInt8:   dtype_name = "u1"; break;
+        case Texture::ComponentFormat::Int8:    dtype_name = "i1"; break;
+        case Texture::ComponentFormat::UInt16:  dtype_name = "u2"; break;
+        case Texture::ComponentFormat::Int16:   dtype_name = "i2"; break;
+        case Texture::ComponentFormat::UInt32:  dtype_name = "u4"; break;
+        case Texture::ComponentFormat::Int32:   dtype_name = "i4"; break;
+        case Texture::ComponentFormat::Float16: dtype_name = "f2"; break;
+        case Texture::ComponentFormat::Float32: dtype_name = "f4"; break;
+        default:
+            throw std::runtime_error("Invalid component format");
+    }
+
+    py::array result(
+        py::dtype(dtype_name),
+        std::vector<ssize_t> { texture.size().y(), texture.size().x(),
+                               (ssize_t) texture.channels() },
+        std::vector<ssize_t> { }
+    );
+
+    texture.download((uint8_t *) result.mutable_data());
+    return result;
+}
+
+static void texture3d_upload(Texture3D &texture, py::array array) {
+    size_t n_channels = array.ndim() == 4 ? array.shape(3) : 1;
+    VariableType dtype         = dtype_to_enoki(array.dtype()),
+                 dtype_texture = (VariableType) texture.component_format();
+
+    if (array.ndim() != 3 && array.ndim() != 4)
+        throw std::runtime_error("Texture3D::upload(): expected a 3 or 4-dimensional array!");
+    else if (array.shape(0) != texture.size().y() ||
+             array.shape(1) != texture.size().x() ||
+             array.shape(2) != texture.size().z())
+        throw std::runtime_error("Texture3D::upload(): array size does not match the texture!");
+    else if (n_channels != texture.channels())
+        throw std::runtime_error(
+            std::string("Texture3D::upload(): number of color channels in array (") +
+            std::to_string(n_channels) + ") does not match the texture (" +
+            std::to_string(texture.channels()) + ")!");
+    else if (dtype != dtype_texture)
+        throw std::runtime_error(
+            std::string("Texture3D::upload(): dtype of array (") +
+            type_name(dtype) + ") does not match the texture (" +
+            type_name(dtype_texture) + ")!");
+
+    texture.upload((const uint8_t *) array.data());
+}
+
 static void texture_upload_sub_region(Texture &texture, py::array array, const Vector2i &origin) {
     size_t n_channels = array.ndim() == 3 ? array.shape(2) : 1;
     VariableType dtype         = dtype_to_enoki(array.dtype()),
@@ -219,6 +270,29 @@ void register_render(py::module &m) {
 #endif
         ;
 
+    auto texture3d = py::class_<Texture3D, Object, ref<Texture3D>>(m, "Texture3D", D(Texture));
+
+    texture3d
+        .def(py::init<PixelFormat, ComponentFormat, const Vector3i &,
+                      InterpolationMode, InterpolationMode, WrapMode>(),
+             D(Texture3D, Texture3D), "pixel_format"_a, "component_format"_a, "size"_a,
+             "min_interpolation_mode"_a = InterpolationMode::Bilinear,
+             "mag_interpolation_mode"_a = InterpolationMode::Bilinear,
+             "wrap_mode"_a = WrapMode::ClampToEdge)
+        .def("pixel_format", &Texture3D::pixel_format, D(Texture3D, pixel_format))
+        .def("component_format", &Texture3D::component_format, D(Texture3D, component_format))
+        .def("min_interpolation_mode", &Texture3D::min_interpolation_mode, D(Texture3D, min_interpolation_mode))
+        .def("mag_interpolation_mode", &Texture3D::mag_interpolation_mode, D(Texture3D, mag_interpolation_mode))
+        .def("wrap_mode", &Texture3D::wrap_mode, D(Texture3D, wrap_mode))
+        .def("size", &Texture3D::size, D(Texture3D, size))
+        .def("bytes_per_pixel", &Texture3D::bytes_per_pixel, D(Texture3D, bytes_per_pixel))
+        .def("channels", &Texture3D::channels, D(Texture3D, channels))
+        .def("download", &texture3d_download, D(Texture3D, download))
+        .def("upload", &texture3d_upload, D(Texture3D, upload))
+        .def("resize", &Texture3D::resize, D(Texture3D, resize))
+        .def("texture_handle", &Texture3D::texture_handle)
+    ;
+
     auto shader = py::class_<Shader, Object, ref<Shader>>(m, "Shader", D(Shader));
 
     py::enum_<BlendMode>(shader, "BlendMode", D(Shader, BlendMode))
@@ -234,6 +308,7 @@ void register_render(py::module &m) {
         .def("blend_mode", &Shader::blend_mode, D(Shader, blend_mode))
         .def("set_buffer", &shader_set_buffer, D(Shader, set_buffer))
         .def("set_texture", &Shader::set_texture, D(Shader, set_texture))
+        .def("set_texture3d", &Shader::set_texture3d, D(Shader, set_texture3d))
         .def("begin", &Shader::begin, D(Shader, begin))
         .def("end", &Shader::end, D(Shader, end))
         .def("__enter__", &Shader::begin)

@@ -182,6 +182,7 @@ class TabWidget;
 class TextBox;
 class TextArea;
 class Texture;
+class Texture3D;
 class Theme;
 class ToolButton;
 class VScrollPanel;

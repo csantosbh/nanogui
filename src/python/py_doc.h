@@ -2180,6 +2180,11 @@ R"doc(Associate a texture with a named shader parameter
 
 The association will be replaced if it is already present.)doc";
 
+static const char *__doc_nanogui_Shader_set_texture3d =
+R"doc(Associate a 3D texture with a named shader parameter
+
+The association will be replaced if it is already present.)doc";
+
 static const char *__doc_nanogui_Shader_set_uniform =
 R"doc(Upload a uniform variable (e.g. a vector or matrix) that will be
 associated with a named shader parameter.)doc";
@@ -2810,6 +2815,58 @@ static const char *__doc_nanogui_Texture_upload_origin = R"doc(Upload packed pix
 static const char *__doc_nanogui_Texture_generate_mipmap = R"doc(Generates the mipmap. Done automatically upon upload if manual mipmapping is disabled)doc";
 
 static const char *__doc_nanogui_Texture_wrap_mode = R"doc(Return the wrap mode)doc";
+
+static const char *__doc_nanogui_Texture3D = R"doc()doc";
+
+static const char *__doc_nanogui_Texture3D_Texture3D =
+R"doc(Allocate memory for a 3D texture with the given configuration
+
+\note Certain combinations of pixel and component formats may not be
+natively supported by the hardware. In this case, init() chooses a
+similar supported configuration that can subsequently be queried using
+pixel_format() and component_format(). Some caution must be exercised
+in this case, since upload() will need to provide the data in a
+different storage format.)doc";
+
+static const char *__doc_nanogui_Texture3D_bytes_per_pixel = R"doc(Return the number of bytes consumed per pixel of this texture)doc";
+
+static const char *__doc_nanogui_Texture3D_channels = R"doc(Return the number of channels of this texture)doc";
+
+static const char *__doc_nanogui_Texture3D_component_format = R"doc(Return the component format)doc";
+
+static const char *__doc_nanogui_Texture3D_download = R"doc(Download packed pixel data from the GPU to the CPU)doc";
+
+static const char *__doc_nanogui_Texture3D_init = R"doc(Initialize the texture handle)doc";
+
+static const char *__doc_nanogui_Texture3D_m_component_format = R"doc()doc";
+
+static const char *__doc_nanogui_Texture3D_m_mag_interpolation_mode = R"doc()doc";
+
+static const char *__doc_nanogui_Texture3D_m_min_interpolation_mode = R"doc()doc";
+
+static const char *__doc_nanogui_Texture3D_m_pixel_format = R"doc()doc";
+
+static const char *__doc_nanogui_Texture3D_m_size = R"doc()doc";
+
+static const char *__doc_nanogui_Texture3D_m_texture_handle = R"doc()doc";
+
+static const char *__doc_nanogui_Texture3D_m_wrap_mode = R"doc()doc";
+
+static const char *__doc_nanogui_Texture3D_mag_interpolation_mode = R"doc(Return the interpolation mode for minimization)doc";
+
+static const char *__doc_nanogui_Texture3D_min_interpolation_mode = R"doc(Return the interpolation mode for minimization)doc";
+
+static const char *__doc_nanogui_Texture3D_pixel_format = R"doc(Return the pixel format)doc";
+
+static const char *__doc_nanogui_Texture3D_resize = R"doc(Resize the texture (discards the current contents))doc";
+
+static const char *__doc_nanogui_Texture3D_size = R"doc(Return the size of this texture)doc";
+
+static const char *__doc_nanogui_Texture3D_texture_handle = R"doc()doc";
+
+static const char *__doc_nanogui_Texture3D_upload = R"doc(Upload packed pixel data from the CPU to the GPU)doc";
+
+static const char *__doc_nanogui_Texture3D_wrap_mode = R"doc(Return the wrap mode)doc";
 
 static const char *__doc_nanogui_Theme = R"doc()doc";
 

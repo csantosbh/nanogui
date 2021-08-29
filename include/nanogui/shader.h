@@ -146,6 +146,13 @@ public:
     void set_texture(const std::string &name, Texture *texture);
 
     /**
+     * \brief Associate a 3D texture with a named shader parameter
+     *
+     * The association will be replaced if it is already present.
+     */
+    void set_texture3d(const std::string &name, Texture3D *texture);
+
+    /**
      * \brief Begin drawing using this shader
      *
      * Note that any updates to 'uniform' and 'varying' shader parameters
