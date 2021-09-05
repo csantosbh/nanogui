@@ -142,6 +142,12 @@ bool Widget::scroll_event(const Vector2i &p, const Vector2f &rel) {
     return false;
 }
 
+bool Widget::contains(const Vector2i &p) const {
+    Vector2i d = p - m_pos;
+    return d.x() >= 0 && d.y() >= 0 &&
+        d.x() < m_size.x() && d.y() < m_size.y();
+}
+
 bool Widget::mouse_drag_event(const Vector2i &, const Vector2i &, int, int) {
     return false;
 }

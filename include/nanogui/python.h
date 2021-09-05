@@ -22,6 +22,9 @@
 
 /// Provides a ``PYBIND11_OVERLOAD`` for any relevant Widget items that need to be bound.
 #define NANOGUI_WIDGET_OVERLOADS(Parent) \
+    bool contains(const ::nanogui::Vector2i &p) const override { \
+        PYBIND11_OVERLOAD(bool, Parent, contains, p); \
+    } \
     bool mouse_button_event(const ::nanogui::Vector2i &p, int button, bool down, int modifiers) override { \
         PYBIND11_OVERLOAD(bool, Parent, mouse_button_event, p, button, down, modifiers); \
     } \
