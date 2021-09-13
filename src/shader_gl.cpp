@@ -84,7 +84,7 @@ Shader::Shader(RenderPass *render_pass,
     CHK(glGetProgramiv(m_shader_handle, GL_ACTIVE_UNIFORMS, &uniform_count));
 
     auto register_buffer = [&](BufferType type, const std::string &name,
-                               int index, GLenum gl_type) {
+                               int index, GLenum gl_type, GLint element_count) {
         if (m_buffers.find(name) != m_buffers.end())
             throw std::runtime_error(
                 "Shader::Shader(): duplicate attribute/uniform name in shader code!");
@@ -98,26 +98,28 @@ Shader::Shader(RenderPass *render_pass,
         buf.ndim = 1;
         buf.index = index;
         buf.type = type;
+        buf.element_count = element_count;
 
         switch (gl_type) {
             case GL_FLOAT:
                 buf.dtype = VariableType::Float32;
                 buf.ndim = 0;
+                buf.shape[0] = element_count;
                 break;
 
             case GL_FLOAT_VEC2:
                 buf.dtype = VariableType::Float32;
-                buf.shape[0] = 2;
+                buf.shape[0] = 2 * element_count;
                 break;
 
             case GL_FLOAT_VEC3:
                 buf.dtype = VariableType::Float32;
-                buf.shape[0] = 3;
+                buf.shape[0] = 3 * element_count;
                 break;
 
             case GL_FLOAT_VEC4:
                 buf.dtype = VariableType::Float32;
-                buf.shape[0] = 4;
+                buf.shape[0] = 4 * element_count;
                 break;
 
             case GL_INT:
@@ -233,7 +235,7 @@ Shader::Shader(RenderPass *render_pass,
         CHK(glGetActiveAttrib(m_shader_handle, i, sizeof(attr_name), nullptr,
                               &size, &type, attr_name));
         GLint index = glGetAttribLocation(m_shader_handle, attr_name);
-        register_buffer(VertexBuffer, attr_name, index, type);
+        register_buffer(VertexBuffer, attr_name, index, type, 1);
     }
 
     for (int i = 0; i < uniform_count; ++i) {
@@ -243,7 +245,7 @@ Shader::Shader(RenderPass *render_pass,
         CHK(glGetActiveUniform(m_shader_handle, i, sizeof(uniform_name), nullptr,
                                &size, &type, uniform_name));
         GLint index = glGetUniformLocation(m_shader_handle, uniform_name);
-        register_buffer(UniformBuffer, uniform_name, index, type);
+        register_buffer(UniformBuffer, uniform_name, index, type, size);
     }
 
     Buffer &buf = m_buffers["indices"];
@@ -437,11 +439,11 @@ void Shader::begin() {
                     case VariableType::Float32:
                         if (buf.ndim < 2) {
                             const float *v = (const float *) buf.buffer;
-                            switch (buf.shape[0]) {
-                                case 1: CHK(glUniform1f(buf.index, v[0])); break;
-                                case 2: CHK(glUniform2f(buf.index, v[0], v[1])); break;
-                                case 3: CHK(glUniform3f(buf.index, v[0], v[1], v[2])); break;
-                                case 4: CHK(glUniform4f(buf.index, v[0], v[1], v[2], v[3])); break;
+                            switch (buf.shape[0] / buf.element_count) {
+                                case 1: CHK(glUniform1fv(buf.index, buf.element_count, v)); break;
+                                case 2: CHK(glUniform2fv(buf.index, buf.element_count, v)); break;
+                                case 3: CHK(glUniform3fv(buf.index, buf.element_count, v)); break;
+                                case 4: CHK(glUniform4fv(buf.index, buf.element_count, v)); break;
                                 default: uniform_error = true; break;
                             }
                         } else if (buf.ndim == 2 && buf.shape[0] == buf.shape[1]) {

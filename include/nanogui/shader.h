@@ -223,6 +223,7 @@ protected:
         size_t shape[3] { 0, 0, 0 };
         size_t size = 0;
         bool dirty = false;
+        size_t element_count = 0;
 
         std::string to_string() const;
     };
