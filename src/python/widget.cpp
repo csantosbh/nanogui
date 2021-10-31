@@ -103,6 +103,7 @@ void register_widget(py::module &m) {
             "float_buffer"_a = false, "gl_major"_a = 3, "gl_minor"_a = 2, D(Screen, Screen))
         .def("caption", &Screen::caption, D(Screen, caption))
         .def("set_caption", &Screen::set_caption, D(Screen, set_caption))
+        .def("make_context_current", &Screen::make_context_current, D(Screen, make_context_current))
         .def("background", &Screen::background, D(Screen, background))
         .def("set_background", &Screen::set_background, D(Screen, set_background))
         .def("set_visible", &Screen::set_visible, D(Screen, set_visible))

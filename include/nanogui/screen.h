@@ -95,6 +95,9 @@ public:
     /// Set the window title bar caption
     void set_caption(const std::string &caption);
 
+    /// Make OpenGL context current
+    void make_context_current();
+
     /// Return the screen's background color
     const Color &background() const { return m_background; }
 

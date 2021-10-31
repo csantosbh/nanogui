@@ -565,6 +565,10 @@ void Screen::set_caption(const std::string &caption) {
     }
 }
 
+void Screen::make_context_current() {
+    glfwMakeContextCurrent(m_glfw_window);
+}
+
 void Screen::set_size(const Vector2i &size) {
     Widget::set_size(size);
 

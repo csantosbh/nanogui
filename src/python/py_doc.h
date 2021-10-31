@@ -2020,6 +2020,8 @@ static const char *__doc_nanogui_Screen_set_background = R"doc(Set the screen's 
 
 static const char *__doc_nanogui_Screen_set_caption = R"doc(Set the window title bar caption)doc";
 
+static const char *__doc_nanogui_Screen_make_context_current = R"doc(Make OpenGL context current)doc";
+
 static const char *__doc_nanogui_Screen_set_resize_callback = R"doc()doc";
 
 static const char *__doc_nanogui_Screen_set_shutdown_glfw = R"doc(Shut down GLFW when the window is closed?)doc";
