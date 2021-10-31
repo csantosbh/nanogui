@@ -261,6 +261,11 @@ extern NANOGUI_EXPORT bool active();
 extern NANOGUI_EXPORT void async(const std::function<void()> &func);
 
 /**
+ * \brief Get current number of visible windows
+ */
+extern NANOGUI_EXPORT int get_visible_window_count();
+
+/**
  * \brief Open a native file open/save dialog.
  *
  * \param filetypes

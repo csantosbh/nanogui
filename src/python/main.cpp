@@ -223,6 +223,7 @@ PYBIND11_MODULE(nanogui_ext, m_) {
        D(mainloop), py::keep_alive<0, 2>());
 
     m.def("async", &nanogui::async, D(async));
+    m.def("get_visible_window_count", &nanogui::get_visible_window_count, D(get_visible_window_count));
     m.def("leave", &nanogui::leave, D(leave));
     m.def("test_10bit_edr_support", &test_10bit_edr_support, D(test_10bit_edr_support));
     m.def("active", &nanogui::active, D(active));

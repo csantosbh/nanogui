@@ -198,6 +198,17 @@ void async(const std::function<void()> &func) {
     m_async_functions.push_back(func);
 }
 
+int get_visible_window_count() {
+    int count = 0;
+
+    for (const auto& screen: __nanogui_screens)
+    {
+        count += screen.second->visible();
+    }
+
+    return count;
+}
+
 void leave() {
     mainloop_active = false;
 }

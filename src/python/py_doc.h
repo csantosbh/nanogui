@@ -3471,6 +3471,9 @@ redrawn the next time.
 NanoGUI is not thread-safe, and async() provides a mechanism for
 queuing up UI-related state changes from other threads.)doc";
 
+static const char *__doc_nanogui_get_visible_window_count =
+R"doc(Get current number of visible windows)doc";
+
 static const char *__doc_nanogui_chdir_to_bundle_parent =
 R"doc(Move to the application bundle's parent directory
 
