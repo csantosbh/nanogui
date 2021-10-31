@@ -222,7 +222,7 @@ PYBIND11_MODULE(nanogui_ext, m_) {
     }, "refresh"_a = -1, "detach"_a = py::none(),
        D(mainloop), py::keep_alive<0, 2>());
 
-    m.def("async", &nanogui::async, D(async));
+    m.def("call_async", &nanogui::async, D(async));
     m.def("get_visible_window_count", &nanogui::get_visible_window_count, D(get_visible_window_count));
     m.def("set_server_mode", &nanogui::set_server_mode, D(set_server_mode));
     m.def("leave", &nanogui::leave, D(leave));
