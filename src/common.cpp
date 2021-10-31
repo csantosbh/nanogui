@@ -40,6 +40,8 @@ NAMESPACE_BEGIN(nanogui)
 
 extern std::map<GLFWwindow *, Screen *> __nanogui_screens;
 
+bool m_server_mode;
+
 #if defined(__APPLE__)
   extern void disable_saved_application_state_osx();
 #endif
@@ -70,6 +72,8 @@ void init() {
 #endif
 
     glfwSetTime(0);
+
+    m_server_mode = false;
 }
 
 static bool mainloop_active = false;
@@ -121,7 +125,7 @@ void mainloop(float refresh) {
             num_screens++;
         }
 
-        if (num_screens == 0) {
+        if (!m_server_mode && num_screens == 0) {
             /* Give up if there was nothing to draw */
             mainloop_active = false;
             return;
@@ -129,6 +133,7 @@ void mainloop(float refresh) {
 
         #if !defined(EMSCRIPTEN)
             /* Wait for mouse/keyboard or empty refresh events */
+        if (num_screens > 0)
             glfwWaitEvents();
         #endif
     };
@@ -207,6 +212,10 @@ int get_visible_window_count() {
     }
 
     return count;
+}
+
+void set_server_mode(bool mode) {
+    m_server_mode = mode;
 }
 
 void leave() {

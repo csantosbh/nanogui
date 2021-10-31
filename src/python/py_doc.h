@@ -3474,6 +3474,13 @@ queuing up UI-related state changes from other threads.)doc";
 static const char *__doc_nanogui_get_visible_window_count =
 R"doc(Get current number of visible windows)doc";
 
+static const char *__doc_nanogui_set_server_mode =
+R"doc(Make NanoGUI always run in the background, allowing new
+windows to be created on demand.
+
+By default, NanoGUI does not run on server mode. Thus, if no
+windows are visible, then it is automatically shut down.)doc";
+
 static const char *__doc_nanogui_chdir_to_bundle_parent =
 R"doc(Move to the application bundle's parent directory
 

@@ -266,6 +266,15 @@ extern NANOGUI_EXPORT void async(const std::function<void()> &func);
 extern NANOGUI_EXPORT int get_visible_window_count();
 
 /**
+ * \brief Make NanoGUI always run in the background, allowing new
+ * windows to be created on demand.
+ *
+ * By default, NanoGUI does not run on server mode. Thus, if no
+ * windows are visible, then it is automatically shut down.
+ */
+extern NANOGUI_EXPORT void set_server_mode(bool mode);
+
+/**
  * \brief Open a native file open/save dialog.
  *
  * \param filetypes
