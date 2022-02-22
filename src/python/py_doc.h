@@ -2028,6 +2028,8 @@ static const char *__doc_nanogui_Screen_set_shutdown_glfw = R"doc(Shut down GLFW
 
 static const char *__doc_nanogui_Screen_set_size = R"doc(Set window size)doc";
 
+static const char *__doc_nanogui_Screen_get_key_status = R"doc(Check if key is pressed or released)doc";
+
 static const char *__doc_nanogui_Screen_set_visible = R"doc(Set the top-level window visibility (no effect on full-screen windows))doc";
 
 static const char *__doc_nanogui_Screen_shutdown_glfw = R"doc()doc";

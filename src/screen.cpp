@@ -580,6 +580,10 @@ void Screen::set_size(const Vector2i &size) {
 #endif
 }
 
+int Screen::get_key_status(int key_code) {
+    return glfwGetKey(m_glfw_window, key_code);
+}
+
 void Screen::clear() {
 #if defined(NANOGUI_USE_OPENGL) || defined(NANOGUI_USE_GLES)
     CHK(glClearColor(m_background[0], m_background[1], m_background[2], m_background[3]));

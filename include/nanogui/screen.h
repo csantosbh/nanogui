@@ -110,6 +110,9 @@ public:
     /// Set window size
     void set_size(const Vector2i& size);
 
+    /// Check if key is pressed or released
+    int get_key_status(int key_code);
+
     /// Return the framebuffer size (potentially larger than size() on high-DPI screens)
     const Vector2i &framebuffer_size() const { return m_fbsize; }
 

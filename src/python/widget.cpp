@@ -108,6 +108,7 @@ void register_widget(py::module &m) {
         .def("set_background", &Screen::set_background, D(Screen, set_background))
         .def("set_visible", &Screen::set_visible, D(Screen, set_visible))
         .def("set_size", &Screen::set_size, D(Screen, set_size))
+        .def("get_key_status", &Screen::get_key_status, D(Screen, get_key_status))
         .def("framebuffer_size", &Screen::framebuffer_size, D(Screen, framebuffer_size))
         .def("perform_layout", (void(Screen::*)(void)) &Screen::perform_layout, D(Screen, perform_layout))
         .def("redraw", &Screen::redraw, D(Screen, redraw))
