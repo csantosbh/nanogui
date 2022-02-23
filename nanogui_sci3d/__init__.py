@@ -1,6 +1,6 @@
 from importlib import import_module as _import
 
-_import('nanogui.nanogui_ext')
+_import('nanogui_sci3d.nanogui_ext')
 
 def get_cmake_dir():
     from os import path

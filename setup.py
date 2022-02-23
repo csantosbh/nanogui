@@ -31,21 +31,21 @@ Apple devices thanks to NanoVG by Mikko Mononen. Python bindings of all
 functionality are provided using pybind11.'''
 
 setup(
-    name="nanogui",
+    name="nanogui_sci3d",
     version=nanogui_version,
     author="Wenzel Jakob",
     author_email="wenzel.jakob@epfl.ch",
-    description='A minimalistic GUI library for OpenGL, GLES 2, and Metal',
+    description='Modified version of the nanogui library for the needs of the sci3d library',
     url="https://github.com/mitsuba-renderer/nanogui",
     license="BSD",
     long_description=long_description,
     long_description_content_type='text/markdown',
     cmake_args=[
-        '-DCMAKE_INSTALL_LIBDIR=nanogui',
-        '-DCMAKE_INSTALL_BINDIR=nanogui',
-        '-DCMAKE_INSTALL_INCLUDEDIR=nanogui/include',
-        '-DCMAKE_INSTALL_DATAROOTDIR=nanogui/share',
+        '-DCMAKE_INSTALL_LIBDIR=nanogui_sci3d',
+        '-DCMAKE_INSTALL_BINDIR=nanogui_sci3d',
+        '-DCMAKE_INSTALL_INCLUDEDIR=nanogui_sci3d/include',
+        '-DCMAKE_INSTALL_DATAROOTDIR=nanogui_sci3d/share',
         '-DNANOGUI_BUILD_EXAMPLES=OFF'
     ],
-    packages=['nanogui']
+    packages=['nanogui_sci3d']
 )
