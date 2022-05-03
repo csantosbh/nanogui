@@ -130,7 +130,7 @@ endmacro()
 
 if (NANOGUI_BACKEND MATCHES "(OpenGL|GLES 2|GLES 3)")
   list(APPEND NANOGUI_EXTRA
-    src/texture_gl.cpp src/texture3d_gl.cpp
+    src/texture_gl.cpp src/texture3d_gl.cpp src/cubemap_gl.cpp
     src/shader_gl.cpp src/renderpass_gl.cpp
     src/opengl.cpp src/opengl_check.h
   )
@@ -416,6 +416,7 @@ add_library(nanogui ${NANOGUI_LIBRARY_TYPE}
   include/nanogui/canvas.h src/canvas.cpp
   include/nanogui/texture.h src/texture.cpp
   include/nanogui/texture3d.h src/texture3d.cpp
+  include/nanogui/cubemap.h src/cubemap.cpp
   include/nanogui/shader.h src/shader.cpp
   include/nanogui/imageview.h src/imageview.cpp
   include/nanogui/traits.h src/traits.cpp

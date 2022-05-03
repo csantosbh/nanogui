@@ -4,6 +4,7 @@
 #include <nanogui/screen.h>
 #include <nanogui/texture.h>
 #include <nanogui/texture3d.h>
+#include <nanogui/cubemap.h>
 #include <nanogui/renderpass.h>
 #include "opengl_check.h"
 
@@ -214,6 +215,12 @@ Shader::Shader(RenderPass *render_pass,
                 buf.type = FragmentTexture;
                 break;
 
+            case GL_SAMPLER_CUBE:
+                buf.dtype = VariableType::Invalid;
+                buf.ndim = 0;
+                buf.type = FragmentTexture;
+                break;
+
             default:
                 throw std::runtime_error("Shader::Shader(): unsupported "
                                          "uniform/attribute type!");
@@ -347,6 +354,20 @@ void Shader::set_texture(const std::string &name, Texture *texture) {
 }
 
 void Shader::set_texture3d(const std::string &name, Texture3D *texture) {
+    auto it = m_buffers.find(name);
+    if (it == m_buffers.end())
+        throw std::runtime_error(
+            "Shader::set_texture(): could not find argument named \"" + name + "\"");
+    Buffer &buf = m_buffers[name];
+    if (!(buf.type == VertexTexture || buf.type == FragmentTexture))
+        throw std::runtime_error(
+            "Shader::set_texture(): argument named \"" + name + "\" is not a texture!");
+
+    buf.buffer = (void *) ((uintptr_t) texture->texture_handle());
+    buf.dirty  = true;
+}
+
+void Shader::set_cubemap(const std::string &name, CubeMap *texture) {
     auto it = m_buffers.find(name);
     if (it == m_buffers.end())
         throw std::runtime_error(

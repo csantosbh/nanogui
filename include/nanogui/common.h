@@ -183,6 +183,7 @@ class TextBox;
 class TextArea;
 class Texture;
 class Texture3D;
+class CubeMap;
 class Theme;
 class ToolButton;
 class VScrollPanel;
